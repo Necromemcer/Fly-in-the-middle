@@ -17,7 +17,7 @@ class FlyGame:
         P = random.randint(5, 15)  # Random path length between 7 and 10
         # Directions: up, down, left, right
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-        directions_names = ['ВВЕРХ', 'ВНИЗ', 'ВЛЕВО', 'ВПРАВО']
+        directions_names = ['UP', 'DOWN', 'LEFT', 'RIGHT']
         # Set the starting point at the middle of the grid
         start_x, start_y = n // 2, n // 2
         path = [(start_x, start_y)]
@@ -90,7 +90,7 @@ class FlyGame:
         self.moves = self.generate_random_path()
         #
         # Countdown before the game starts
-        countdown_values = [f"МУХА В ЦЕНТРЕ {self.grid_size} на {self.grid_size},", "реагировать через нажатие ПРОБЕЛ", "3", "2", "1", "СТАРТ"]
+        countdown_values = [f"FLY IN THE MIDDLE {self.grid_size} by {self.grid_size}", "REACT BY PRESSING 'SPACE'", "3", "2", "1", "START"]
         for text in countdown_values:
             self.display.fill((255, 255, 255))  # White background
             countdown_text = self.font.render(text, True, (0, 0, 0))
@@ -98,7 +98,7 @@ class FlyGame:
             text_rect = countdown_text.get_rect(center=(screen_width // 2, screen_height // 2))
             self.display.blit(countdown_text, text_rect)
             pygame.display.flip()
-            pygame.time.wait(1000)
+            pygame.time.wait(1800)
         #
         # Main game loop
         while running:
@@ -140,9 +140,9 @@ class FlyGame:
             if game_over:
                 self.display.fill((255, 255, 255))  # White background
                 if player_lost:
-                    result_text = self.font.render("ВЫ ПРОИГРАЛИ, НАЖАТО СЛИШКОМ РАНО.", True, (255, 0, 0))
+                    result_text = self.font.render("YOU'VE LOST DUE TO PREMATURE REACTION.", True, (255, 0, 0))
                 else:
-                    result_text = self.font.render(f"ВРЕМЯ РЕАКЦИИ: {reaction_time:.3f} СЕКУНД", True, (0, 0, 0))
+                    result_text = self.font.render(f"REACTION TIME: {reaction_time:.3f} SECONDS", True, (0, 0, 0))
                 text_rect = result_text.get_rect(center=(screen_width // 2, screen_height // 2))
                 self.display.blit(result_text, text_rect)
                 pygame.display.flip()
@@ -152,5 +152,10 @@ class FlyGame:
             self.clock.tick(60)
         pygame.quit()
 
-game = FlyGame(3, 1500)
+print("Choose the size of grid (3, 5):")
+size = int(input())
+print("Choose the time interval [milliseconds] (1000/1500/2000, etc.):")
+interval = int(input())
+
+game = FlyGame(size, interval)
 game.main_loop()
